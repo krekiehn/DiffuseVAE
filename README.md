@@ -62,6 +62,10 @@ Please refer to the scripts provided in the table corresponding to some inferenc
 | Interpolate in the VAE/DDPM latent space using DiffuseVAE 	|    `scripts/interpolate.sh`   	|
 
 For computing the evaluation metrics (FID, IS etc.), we use the [torch-fidelity](https://github.com/toshas/torch-fidelity) package. See `scripts/fid.sh` for some sample usage examples.
+## CheXpert preprocessing
+
+`scripts/preprocess_chexpert.py` converts the raw JPG/PNG chest X-rays to a cleaned dataset using common steps from the literature (CLAHE contrast enhancement and resizing).
+
 
 
 ## Pretrained checkpoints
