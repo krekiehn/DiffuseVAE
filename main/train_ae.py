@@ -21,6 +21,7 @@ from torch.utils.data import DataLoader
 # from models.vae import VAE
 from models.vae import VAE
 from util import configure_device, get_dataset
+from downstream.chexpert_linear_probe import linear_probe_f1
 
 logger = logging.getLogger(__name__)
 
@@ -109,6 +110,20 @@ def train(config):
     trainer = pl.Trainer(**train_kwargs)
     trainer.fit(vae, train_dataloader=loader)
 
+    score = None
+    if config.get("downstream_eval") and config.downstream_eval.enabled:
+        score = linear_probe_f1(
+            csv_path=config.downstream_eval.csv_path,
+            data_root=config.downstream_eval.data_root,
+            vae=vae,
+            batch_size=config.downstream_eval.batch_size,
+            image_size=image_size,
+            test_split=config.downstream_eval.test_split,
+            device=config.downstream_eval.device,
+        )
+        logger.info(f"Downstream F1 score: {score:.4f}")
+
+    return score
 
 if __name__ == "__main__":
     train()

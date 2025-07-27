@@ -74,3 +74,11 @@ vae:
     workers: 2
     chkpt_prefix: ""
     alpha: 1.0   # The beta value in beta-vae. I know the param name might be misleading :(
+
+  downstream_eval:
+    enabled: false
+    csv_path: ""
+    data_root: ${..data.root}
+    batch_size: 32
+    test_split: 0.2
+    device: "cpu"
