@@ -50,6 +50,19 @@ Please refer to the scripts provided in the table corresponding to some training
 |  Training First stage VAE  	|  `scripts/train_ae.sh`  	|
 | Training Second stage DDPM 	| `scripts/train_ddpm.sh` 	|
 
+## Hyperparameter Optimization
+The training scripts are compatible with [Hydra](https://hydra.cc/) and the
+[Optuna sweeper](https://github.com/facebookresearch/hydra/tree/main/plugins/hydra_optuna_sweeper).
+An example sweep configuration is provided in `main/configs/sweep_ae.yaml` and
+can be executed as follows:
+
+```bash
+python main/train_ae.py -m --config-name sweep_ae.yaml
+```
+
+This command runs multiple training jobs with different parameter settings as
+specified in the sweep configuration and reports the best run according to the
+objective metric.
 ## Inference
 
 Please refer to the scripts provided in the table corresponding to some inference tasks possible using the code.

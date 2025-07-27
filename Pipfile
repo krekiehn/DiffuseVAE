@@ -12,8 +12,11 @@ torchvision = "==0.12"
 wandb = "*"
 hydra-core = "*"
 scipy = "*"
+optuna = "*"
+hydra-optuna-sweeper = "*"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3.7"
