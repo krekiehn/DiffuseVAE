@@ -13,6 +13,7 @@ from datasets import (
     CelebAMaskHQDataset,
     CIFAR10Dataset,
     FFHQDataset,
+    CheXpertDataset,
 )
 
 logger = logging.getLogger(__name__)
@@ -76,6 +77,8 @@ def get_dataset(name, root, image_size, norm=True, flip=False, **kwargs):
         dataset = AFHQv2Dataset(root, norm=norm, transform=transform, **kwargs)
     elif name == "ffhq":
         dataset = FFHQDataset(root, norm=norm, transform=transform, **kwargs)
+    elif name == "chexpert":
+        dataset = CheXpertDataset(root, norm=norm, transform=transform, **kwargs)
     elif name == "cifar10":
         assert image_size == 32
         t_list = []

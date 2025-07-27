@@ -103,9 +103,9 @@ class ResBlock(nn.Module):
 
 
 class Encoder(nn.Module):
-    def __init__(self, block_config_str, channel_config_str):
+    def __init__(self, block_config_str, channel_config_str, in_channels=3):
         super().__init__()
-        self.in_conv = nn.Conv2d(3, 64, 3, stride=1, padding=1, bias=False)
+        self.in_conv = nn.Conv2d(in_channels, 64, 3, stride=1, padding=1, bias=False)
 
         block_config = parse_layer_string(block_config_str)
         channel_config = parse_channel_string(channel_config_str)
@@ -144,7 +144,7 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self, input_res, block_config_str, channel_config_str):
+    def __init__(self, input_res, block_config_str, channel_config_str, out_channels=3):
         super().__init__()
         block_config = parse_layer_string(block_config_str)
         channel_config = parse_channel_string(channel_config_str)
@@ -176,7 +176,9 @@ class Decoder(nn.Module):
             )
         # TODO: If the training is unstable try using scaling the weights
         self.block_mod = nn.Sequential(*blocks)
-        self.last_conv = nn.Conv2d(channel_config[input_res], 3, 3, stride=1, padding=1)
+        self.last_conv = nn.Conv2d(
+            channel_config[input_res], out_channels, 3, stride=1, padding=1
+        )
 
     def forward(self, input):
         x = self.block_mod(input)
@@ -196,6 +198,7 @@ class VAE(pl.LightningModule):
         dec_channel_str,
         alpha=1.0,
         lr=1e-4,
+        n_channels=3,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -206,12 +209,15 @@ class VAE(pl.LightningModule):
         self.dec_channel_str = dec_channel_str
         self.alpha = alpha
         self.lr = lr
+        self.n_channels = n_channels
 
         # Encoder architecture
-        self.enc = Encoder(self.enc_block_str, self.enc_channel_str)
+        self.enc = Encoder(self.enc_block_str, self.enc_channel_str, in_channels=self.n_channels)
 
         # Decoder Architecture
-        self.dec = Decoder(self.input_res, self.dec_block_str, self.dec_channel_str)
+        self.dec = Decoder(
+            self.input_res, self.dec_block_str, self.dec_channel_str, out_channels=self.n_channels
+        )
 
     def encode(self, x):
         mu, logvar = self.enc(x)

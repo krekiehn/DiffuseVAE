@@ -43,6 +43,7 @@ def train(config):
         dec_channel_str=config.model.dec_channel_config,
         lr=config.training.lr,
         alpha=config.training.alpha,
+        n_channels=config.data.n_channels,
     )
 
     # Trainer
