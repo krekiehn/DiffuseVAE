@@ -89,7 +89,7 @@ def sample(config):
 
     # Create predict dataset of latents
     z_dataset = UncondLatentDataset(
-        (n_samples, 3, image_size, image_size),
+        (n_samples, config.data.n_channels, image_size, image_size),
     )
 
     # Setup devices

@@ -86,6 +86,7 @@ def train(config):
     vae = VAE.load_from_checkpoint(
         config.training.vae_chkpt_path,
         input_res=image_size,
+        n_channels=config.data.n_channels,
     )
     vae.eval()
 

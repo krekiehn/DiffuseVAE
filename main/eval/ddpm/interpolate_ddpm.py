@@ -131,10 +131,10 @@ def interpolate_ddpm(config):
             recons_inter = 2 * recons_inter - 1
 
         x_t1 = config_ddpm.evaluation.temp * torch.randn(
-            1, 3, image_size, image_size, device=dev
+            1, config_ddpm.data.n_channels, image_size, image_size, device=dev
         )
         x_t2 = config_ddpm.evaluation.temp * torch.randn(
-            1, 3, image_size, image_size, device=dev
+            1, config_ddpm.data.n_channels, image_size, image_size, device=dev
         )
 
         if config_ddpm.evaluation.type == "form2":
