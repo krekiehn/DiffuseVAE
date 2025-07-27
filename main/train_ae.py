@@ -1,3 +1,12 @@
+"""VAE training entry point with Hydra configuration.
+
+Run a hyperparameter sweep using the Optuna sweeper with:
+
+```
+python train_ae.py -m --config-name sweep_ae.yaml
+```
+"""
+
 import logging
 import os
 

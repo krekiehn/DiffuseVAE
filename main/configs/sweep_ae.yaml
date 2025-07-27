@@ -1,0 +1,18 @@
+# Example Optuna sweep configuration for VAE training
+# This configuration optimizes the learning rate and batch size.
+
+defaults:
+  - dataset/cifar10/train.yaml
+  - override hydra/sweeper: optuna
+  - _self_
+
+hydra:
+  sweeper:
+    sampler:
+      _target_: optuna.samplers.TPESampler
+    direction: minimize
+    study_name: vae_sweep
+    n_trials: 10
+    params:
+      dataset.vae.training.lr: interval(1e-5, 1e-3)
+      dataset.vae.training.batch_size: choice(64, 128)
