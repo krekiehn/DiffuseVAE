@@ -63,6 +63,10 @@ python main/train_ae.py -m --config-name sweep_ae.yaml
 This command runs multiple training jobs with different parameter settings as
 specified in the sweep configuration and reports the best run according to the
 objective metric.
+When `downstream_eval.enabled` is set to `true` in a dataset configuration, the
+training script runs a linear probe on the trained VAE and logs the resulting
+F1 score. This value is returned to Optuna and can be used as an objective
+metric during sweeps.
 ## Inference
 
 Please refer to the scripts provided in the table corresponding to some inference tasks possible using the code.
